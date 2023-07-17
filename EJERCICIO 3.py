@@ -1,6 +1,8 @@
 #se realizo el ejercicio 3 del taller final con el metodo adicional de mostrar boleto en pantalla
 import random
 
+vuelos = [ "vuelo1", "vuelo2", "vuelo3", "vuelo4", "vuelo5", "vuelo6", "vuelo7", "vuelo8", "vuelo9", "vuelo10", "vuelo11", "vuelo12", "vuelo13", "vuelo14", "vuelo15", "vuelo16", "vuelo17", "vuelo18", "vuelo19", "vuelo20", "vuelo21", "vuelo22", "vuelo23", "vuelo24", "vuelo25", "vuelo26", "vuelo27", "vuelo28", "vuelo29", "vuelo30", "vuelo31", "vuelo32", "vuelo33", "vuelo34", "vuelo35", "vuelo36", "vuelo37", "vuelo38", "vuelo39", "vuelo40", "vuelo41", "vuelo42"]
+
 
 
 class vuelo:
@@ -10,34 +12,25 @@ class vuelo:
     self.aeropuerto_inicio = aeropuerto_inicio
     self.aeropuerto_destino = aeropuerto_destino
     self.fecha = fecha
-    self.hora = hora_salida
+    self.hora_salida = hora_salida
     self.hora_llegada = hora_llegada
     self.asiento = asiento
     self.precio = precio
    
   
-  def subir_nivel(self):
-    self.nivel = int(self.nivel)
-    if self.experiencia_del_nivel == 100:
-      self.nivel = self.nivel + 1
-      self.puntos_vida = int(self.puntos_vida)
-      self.puntos_vida = int(self.puntos_vida + 20)
-      print( self.nombre+" ha subido de nivel, el nuevo nivel es: " +str(self.nivel), "y se ha aumentado en 20 los puntos de vida")
-      print( self.nombre+" ahora tiene " +str(self.puntos_vida))
-
-  def asignar_nombre(self):
-    print("Por favor ingrese el nombre del jugador: ")
-    self.nombre = input()
-
-  def recibir_daño(self,valor_ataque):
+  def mostrardatos_vuelo(self):
     
-    if self.defensa == 1:
-      valor_ataque = valor_ataque - self.puntos_bloqueo
-      self.defensa = int(0)
-      self.puntos_bloqueo = int(0)
-    else:
-      valor_ataque = valor_ataque
-    self.puntos_vida = int(self.puntos_vida - valor_ataque)
+    print("Codigo del vuelo: ", +self.codigo)
+    print("Aerolinea: ", +self.aerolinea)
+    print("Aeropuerto de inicio: ", +self.aeropuerto_inicio)
+    print("Aeropuerto de destino: ", +self.aeropuerto_destino)
+    print("Fecha del vuelo: ", +self.fecha)
+    print("Hora de salida: ", +self.hora_salida)
+    print("Hora de llegada: ", +self.hora_llegada)
+    print("Fecha del vuelo: ", +self.fecha)
+    print("precio: $", +self.precio)
+
+
     
 
 class reserva(vuelo):
@@ -45,90 +38,39 @@ class reserva(vuelo):
     super().__init__(codigo,aerolinea,aeropuerto_inicio,aeropuerto_destino,fecha,hora_salida,hora_llegada ,asiento,precio)  
 
   def buscar_vuelos(self):
-    print("Por favor introduce el dia de salida el vuelo para el mes de julio: (17-31)")
+    seleccion = "a"
+    print("Por favor introduce el dia de salida el vuelo para la siguiente semana del mes de julio: (17-23)")
     self.fecha = int(input())
     print("Por favor introduce el aeropuerto de salida: (Bogota/Medellin/Bucaramanga)")
     self.aeropuerto_inicio = input()
     print("Por favor introduce el aeropuerto de destino: (Bogota/Medellin/Bucaramanga)")
     self.aeropuerto_destino = input()
-    
 
-  def atacar(self,objetivo):
-    valor_ataque = int(0)
-    self.daño_arma = int(self.daño_arma)
-    print(self.dueño_arma+ " ha ejecutado el ataque explosión venenosa")
-    print("Este ataque causa:"  +str(self.daño_arma), "puntos de daño")
-    valor_ataque = self.daño_arma
-    personaje.recibir_daño(objetivo,valor_ataque)
-    
-    
-  def defenderse(self,defendido):
-    print( self.dueño_arma+ " intentará efectuar la defensa anticipada en caso de ataque en el proximo turno del rival...")
-    
-    aleatorio = random.randint(1, 3)
-    if aleatorio == 1:
-      defendido.defensa = int(1)
-      defendido.puntos_bloqueo = int(7)
-      print("La defensa ha sido exitosa")
-    else:
-      defendido.defensa = int(0)
-      print("La defensa ha fracasado")
+    for n in vuelos:
+      if ((self.fecha == int(n.fecha)) and (self.aeropuerto_inicio == str(n.aeropuerto_inicio)) and (self.aeropuerto_destino == str(n.aeropuerto_destino))):
+
+        print("Se ha encotrado el vuelo con los siguientes datos: ")
+        
+        print(" ")
+        n.mostrardatos_vuelo()
+
+        print(" ")
+        print("Desea efectuar el pago y continuar con la reserva del vuelo? ", "por favor, introduzca: (si/no)")
+        seleccion = str(input())
+        if seleccion == "si":
+          self.codigo = n.codigo
+          self.aerolinea = str(n.areolinea)
+          self.hora_salida = str(n.hora_salida)
+          self.hora_llegada = str(n.hora_llegada)
+          self.precio = int(n.precio)
+          print("Se esta procesando el pago.....")
+          print("El pago ha sido exitoso ", "para continuar con la reserva por favor introduzca los datos del pasajero: ")
+          
+        
+      
 
 
 
-class Arma_hielo(Arma):
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma): 
-    self.puntos_bloqueo = 12
-    self.probabilidad_bloqueo = "33.3%"
-    super().__init__(nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma)  
-
-  def atacar(self,objetivo):
-    valor_ataque = int(0)
-    self.daño_arma = int(self.daño_arma)
-    print( self.dueño_arma+" ha ejecutado el ataque congelación profunda")
-    print("Este ataque causa:"  +str(self.daño_arma), "puntos de daño")
-    valor_ataque = self.daño_arma
-    personaje.recibir_daño(objetivo,valor_ataque)
-    
-    
-  def defenderse(self,defendido):
-    print( self.dueño_arma+ " intentará efectuar la defensa anticipada en caso de ataque en el proximo turno del rival...")
-    
-    aleatorio = random.randint(1, 4)
-    if aleatorio == 2:
-      defendido.defensa = int(1)
-      defendido.puntos_bloqueo = int(12)
-      print("La defensa ha sido exitosa")
-    else:
-      defendido.defensa = int(0)
-      print("La defensa ha fracasado")
-
-class Arma_fuego(Arma):
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma): 
-    self.puntos_bloqueo = 14
-    self.probabilidad_bloqueo = "25%"
-    super().__init__(nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma)  
-
-  def atacar(self,objetivo):
-    valor_ataque = int(0)
-    self.daño_arma = int(self.daño_arma)
-    print( self.dueño_arma+" ha ejecutado el ataque onda ignea")
-    print("Este ataque causa:"  +str(self.daño_arma), "puntos de daño")
-    valor_ataque = self.daño_arma
-    personaje.recibir_daño(objetivo,valor_ataque)
-    
-    
-  def defenderse(self,defendido):
-    print( self.dueño_arma+" intentará efectuar la defensa anticipada en caso de ataque en el proximo turno del rival...")
-    
-    aleatorio = random.randint(1, 5)
-    if aleatorio == 2:
-      defendido.defensa = int(1)
-      defendido.puntos_bloqueo = int(14)
-      print("La defensa ha sido exitosa")
-    else:
-      defendido.defensa = int(0)
-      print("La defensa ha fracasado")
 
 
 class pasajero:
@@ -152,28 +94,61 @@ class pasajero:
     self.correo = input()
 
 
-jugador = personaje("a",100,1,0,0,0)
-rival = personaje("Jiron el destructor",100,1,0,0,0)
-arma1 = Arma_toxica("Daga del veneno","toxicidad",1,20,"b")
-arma2 = Arma_hielo("Hacha de la ventisca","hielo",1,24,"b")
-arma3 = Arma_fuego("Espada del inframundo","fuego",1,28,"b")
+vuelo_reserva = reserva("A1", "ALW", "A", "B", 17, "06:00", "08:00", "a", 85000)
 
 vuelo1 = vuelo("BOME017","Avianca","Bogota","Medellin",17,"12:00","14:00","a",100000)
-vuelo2 = vuelo("BUME018","LATAM","Bucaramanga","Medellin",18,"11:30","12:00","a",110000)
-vuelo3 = vuelo("BOBU019","Avianca","Bogota","Medellin",19,"07:00","08:00","a",130000)
-vuelo4 = vuelo("BOME021","Avianca","Bogota","Medellin",20,"12:00","14:00","a",100000)
-vuelo5 = vuelo("BOME021","LATAM","Bogota","Medellin",21,"12:00","14:00","a",100000)
-vuelo6 = vuelo("BOME021","LATAM","Bogota","Medellin",22,"12:00","14:00","a",100000)
-vuelo7 = vuelo("BOME021","Avianca","Bogota","Medellin",23,"12:00","14:00","a",100000)
-vuelo8 = vuelo("BOME021","Avianca","Bogota","Medellin",24,"12:00","14:00","a",100000)
-vuelo9 = vuelo("BOME021","LATAM","Bogota","Medellin",25,"12:00","14:00","a",100000)
-vuelo10 = vuelo("BOME021","LATAM","Bogota","Medellin",26,"12:00","14:00","a",100000)
-vuelo11 = vuelo("BOME021","Avianca","Bogota","Medellin",27,"12:00","14:00","a",100000)
-vuelo12 = vuelo("BOME021","Avianca","Bogota","Medellin",28,"12:00","14:00","a",100000)
-vuelo13 = vuelo("BOME021","LATAM","Bogota","Medellin",29,"12:00","14:00","a",100000)
-vuelo14 = vuelo("BOME021","LATAM","Bogota","Medellin",30,"12:00","14:00","a",100000)
-vuelo15 = vuelo("BOME021","Avianca","Bogota","Medellin",31,"12:00","14:00","a",100000)
-vuelo16 = vuelo("BOME021","LATAM","Bucaramanga","Medellin",17,"12:00","14:00","a",100000)
+vuelo2 = vuelo("BOME018","LATAM","Bogota","Medellin",18,"09:30","11:15","a",110000)
+vuelo3 = vuelo("BOME019","Wingo","Bogota","Medellin",19,"07:00","08:00","a",130000)
+vuelo4 = vuelo("BOME020","Avianca","Bogota","Medellin",20,"12:00","14:00","a",140000)
+vuelo5 = vuelo("BOME021","LATAM","Bogota","Medellin",21,"08:40","10:30","a",138000)
+vuelo6 = vuelo("BOME022","LATAM","Bogota","Medellin",22,"15:00","16:30","a",112000)
+vuelo7 = vuelo("BOME023","Avianca","Bogota","Medellin",23,"16:00","18:00","a",105000)
+
+vuelo8 = vuelo("MEBO017","Avianca","Medellin","Bogota",17,"12:00","14:00","a",100000)
+vuelo9 = vuelo("MEBO018","wingo","Medellin","Bogota",18,"09:00","10:30","a",92000)
+vuelo10 = vuelo("MEBO019","LATAM","Medellin","Bogota",19,"18:00","20:00","a",99000)
+vuelo11 = vuelo("MEBO020","Wingo","Medellin","Bogota",20,"19:00","21:00","a",93000)
+vuelo12 = vuelo("MEBO021","Wingo","Medellin","Bogota",21,"20:00","21:30","a",90000)
+vuelo13 = vuelo("MEBO022","LATAM","Medellin","Bogota",22,"08:00","09:30","a",87000)
+vuelo14 = vuelo("MEBO023","LATAM","Medellin","Bogota",23,"10:00","11:30","a",111000)
+
+vuelo15 = vuelo("MEBU017","Avianca","Medellin","Bucaramanga",17,"06:00","07:00","a",95000)
+vuelo16 = vuelo("MEBU018","LATAM","Medellin","Bucaramanga",18,"11:00","12:00","a",88000)
+vuelo17 = vuelo("MEBU019","Avianca","Medellin","Bucaramanga",19,"15:00","16:30","a",100000)
+vuelo18 = vuelo("MEBU020","LATAM","Medellin","Bucaramanga",20,"16:30","18:00","a",93000)
+vuelo19 = vuelo("MEBU021","wingo","Medellin","Bucaramanga",21,"12:00","14:00","a",100000)
+vuelo20 = vuelo("MEBU022","Wingo","Medellin","Bucaramanga",22,"09:00","10:00","a",112000)
+vuelo21 = vuelo("MEBU023","Wingo","Medellin","Bucaramanga",23,"20:00","21:00","a",110000)
+
+vuelo22 = vuelo("BUME017","Avianca","Bucaramanga","Medellin",17,"10:00","11:00","a",115000)
+vuelo23 = vuelo("BUME018","LATAM","Bucaramanga","Medellin",18,"20:00","21:00","a",118000)
+vuelo24 = vuelo("BUME019","LATAM","Bucaramanga","Medellin",19,"06:00","08:00","a",82000)
+vuelo25 = vuelo("BUME020","Avianca","Bucaramanga","Medellin",20,"09:00","10:30","a",85000)
+vuelo26 = vuelo("BUME021","Avianca","Bucaramanga","Medellin",21,"12:00","14:00","a",130000)
+vuelo27 = vuelo("BUME022","Avianca","Bucaramanga","Medellin",22,"13:00","14:30","a",140000)
+vuelo28 = vuelo("BUME023","LATAM","Bucaramanga","Medellin",23,"08:00","10:00","a",100000)
+
+vuelo29 = vuelo("BUBO017","Avianca","Bucaramanga","Bogota",17,"08:00","10:00","a",100000)
+vuelo30 = vuelo("BUBO018","Wingo","Bucaramanga","Bogota",18,"09:00","10:30","a",111000)
+vuelo31 = vuelo("BUBO019","LATAM","Bucaramanga","Bogota",19,"12:00","14:00","a",131000)
+vuelo32 = vuelo("BUBO020","Avianca","Bucaramanga","Bogota",20,"10:00","11:00","a",120000)
+vuelo33 = vuelo("BUBO021","Avianca","Bucaramanga","Bogota",21,"06:00","08:00","a",105000)
+vuelo34 = vuelo("BUBO022","Wingo","Bucaramanga","Bogota",22,"19:00","20:30","a",90000)
+vuelo35 = vuelo("BUBO023","Wingo","Bucaramanga","Bogota",23,"18:00","20:00","a",91000)
+
+vuelo36 = vuelo("BOBU017","LATAM","Bogota","Bucaramanga",17,"21:00","22:00","a",94000)
+vuelo37 = vuelo("BOBU018","Wingo","Bogota","Bucaramanga",18,"22:00","23:00","a",130000)
+vuelo38 = vuelo("BOBU019","LATAM","Bogota","Bucaramanga",19,"09:00","10:30","a",115000)
+vuelo39 = vuelo("BOBU020","Wingo","Bogota","Bucaramanga",20,"08:00","09:00","a",85000)
+vuelo40 = vuelo("BOBU021","Avianca","Bogota","Bucaramanga",21,"14:00","16:00","a",95000)
+vuelo41 = vuelo("BOBU022","LATAM","Bogota","Bucaramanga",22,"15:00","16:30","a",98000)
+vuelo42 = vuelo("BOBU023","Avianca","Bogota","Bucaramanga",23,"18:00","20:00","a",99000)
+
+
+
+
+
+
 
 
 
