@@ -1,24 +1,21 @@
-
+#se realizo el ejercicio 3 del taller final con el metodo adicional de mostrar boleto en pantalla
 import random
 
 
 
 class vuelo:
-  def __init__(self,codigo,aerolinea,aeropuerto_inicio,aeropuerto_destino,puntos_bloqueo):
+  def __init__(self,codigo,aerolinea,aeropuerto_inicio,aeropuerto_destino,fecha,hora_salida,hora_llegada ,asiento,precio):
     self.codigo = codigo
-    self.puntos_vida = puntos_vida
-    self.nivel = nivel
-    self.experiencia_del_nivel = experiencia_del_nivel
-    self.defensa = defensa
-    self.puntos_bloqueo = puntos_bloqueo
-    
-    
+    self.areolinea = aerolinea
+    self.aeropuerto_inicio = aeropuerto_inicio
+    self.aeropuerto_destino = aeropuerto_destino
+    self.fecha = fecha
+    self.hora = hora_salida
+    self.hora_llegada = hora_llegada
+    self.asiento = asiento
+    self.precio = precio
    
-  def adquirir_experiencia(self):
-    print(self.nombre+ " Comienza a entrenar para obtener experiencia....")
-    self.experiencia_del_nivel = int(self.experiencia_del_nivel)
-    self.experiencia_del_nivel = int(self.experiencia_del_nivel + 50)
-    print("con el entrenamiento se han ganado 50 puntos de experiencia")
+  
   def subir_nivel(self):
     self.nivel = int(self.nivel)
     if self.experiencia_del_nivel == 100:
@@ -43,32 +40,18 @@ class vuelo:
     self.puntos_vida = int(self.puntos_vida - valor_ataque)
     
 
-class Arma:
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma):     
-    self.nombre_arma = nombre_arma
-    self.elemento_arma = elemento_arma
-    self.nivel_arma = nivel_arma
-    self.daño_arma = daño_arma
-    self.dueño_arma = dueño_arma
+class reserva(vuelo):
+  def __init__(self,codigo,aerolinea,aeropuerto_inicio,aeropuerto_destino,fecha,hora_salida,hora_llegada ,asiento,precio): 
+    super().__init__(codigo,aerolinea,aeropuerto_inicio,aeropuerto_destino,fecha,hora_salida,hora_llegada ,asiento,precio)  
 
-  def atacar(self):
-    pass
-
-  def defenderse(self):
-    pass
+  def buscar_vuelos(self):
+    print("Por favor introduce el dia de salida el vuelo para el mes de julio: (17-31)")
+    self.fecha = int(input())
+    print("Por favor introduce el aeropuerto de salida: (Bogota/Medellin/Bucaramanga)")
+    self.aeropuerto_inicio = input()
+    print("Por favor introduce el aeropuerto de destino: (Bogota/Medellin/Bucaramanga)")
+    self.aeropuerto_destino = input()
     
-  def afilar_arma(self):
-
-    print( self.dueño_arma+ " va a afilar su arma con la piedra de obsidiana del monte chrui...")
-    self.daño_arma = int(self.daño_arma)
-    self.daño_arma = int(self.daño_arma + 15)
-    print("Se ha afilado el arma exitosamente! , el daño del arma se ha incrementado en 15 puntos de daño", )
-
-class Arma_toxica(Arma):
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma): 
-    self.puntos_bloqueo = 7
-    self.probabilidad_bloqueo = "50%"
-    super().__init__(nombre_arma,elemento_arma,nivel_arma,daño_arma, dueño_arma)  
 
   def atacar(self,objetivo):
     valor_ataque = int(0)
@@ -148,11 +131,50 @@ class Arma_fuego(Arma):
       print("La defensa ha fracasado")
 
 
+class pasajero:
+  def __init__(self,nombre,apellido,numero_documento,telefono,correo):
+    self.nombre = nombre
+    self.apellido = apellido
+    self.numero_documento = numero_documento
+    self.telefono = telefono
+    self.correo = correo
+  
+  def ingresardatos_pasajero(self):
+    print("Por favor ingrese su nombre: ")
+    self.nombre = input()
+    print("Por favor ingrese su apellido: ")
+    self.apellido = input()
+    print("Por favor ingrese su numero de documento: ")
+    self.numero_documento = int(input())
+    print("Por favor ingrese su numero de telefono: ")
+    self.telefono = int(input())
+    print("Por favor ingrese su correo electronico: ")
+    self.correo = input()
+
+
 jugador = personaje("a",100,1,0,0,0)
 rival = personaje("Jiron el destructor",100,1,0,0,0)
 arma1 = Arma_toxica("Daga del veneno","toxicidad",1,20,"b")
 arma2 = Arma_hielo("Hacha de la ventisca","hielo",1,24,"b")
 arma3 = Arma_fuego("Espada del inframundo","fuego",1,28,"b")
+
+vuelo1 = vuelo("BOME017","Avianca","Bogota","Medellin",17,"12:00","14:00","a",100000)
+vuelo2 = vuelo("BUME018","LATAM","Bucaramanga","Medellin",18,"11:30","12:00","a",110000)
+vuelo3 = vuelo("BOBU019","Avianca","Bogota","Medellin",19,"07:00","08:00","a",130000)
+vuelo4 = vuelo("BOME021","Avianca","Bogota","Medellin",20,"12:00","14:00","a",100000)
+vuelo5 = vuelo("BOME021","LATAM","Bogota","Medellin",21,"12:00","14:00","a",100000)
+vuelo6 = vuelo("BOME021","LATAM","Bogota","Medellin",22,"12:00","14:00","a",100000)
+vuelo7 = vuelo("BOME021","Avianca","Bogota","Medellin",23,"12:00","14:00","a",100000)
+vuelo8 = vuelo("BOME021","Avianca","Bogota","Medellin",24,"12:00","14:00","a",100000)
+vuelo9 = vuelo("BOME021","LATAM","Bogota","Medellin",25,"12:00","14:00","a",100000)
+vuelo10 = vuelo("BOME021","LATAM","Bogota","Medellin",26,"12:00","14:00","a",100000)
+vuelo11 = vuelo("BOME021","Avianca","Bogota","Medellin",27,"12:00","14:00","a",100000)
+vuelo12 = vuelo("BOME021","Avianca","Bogota","Medellin",28,"12:00","14:00","a",100000)
+vuelo13 = vuelo("BOME021","LATAM","Bogota","Medellin",29,"12:00","14:00","a",100000)
+vuelo14 = vuelo("BOME021","LATAM","Bogota","Medellin",30,"12:00","14:00","a",100000)
+vuelo15 = vuelo("BOME021","Avianca","Bogota","Medellin",31,"12:00","14:00","a",100000)
+vuelo16 = vuelo("BOME021","LATAM","Bucaramanga","Medellin",17,"12:00","14:00","a",100000)
+
 
 
 def seleccion_movimiento():
