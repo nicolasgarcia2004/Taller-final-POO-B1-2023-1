@@ -1,5 +1,5 @@
 #se realizo el ejercicio 3 del taller final con el metodo adicional de mostrar boleto en pantalla
-import random
+import sys
 
 vuelos = [ "vuelo1", "vuelo2", "vuelo3", "vuelo4", "vuelo5", "vuelo6", "vuelo7", "vuelo8", "vuelo9", "vuelo10", "vuelo11", "vuelo12", "vuelo13", "vuelo14", "vuelo15", "vuelo16", "vuelo17", "vuelo18", "vuelo19", "vuelo20", "vuelo21", "vuelo22", "vuelo23", "vuelo24", "vuelo25", "vuelo26", "vuelo27", "vuelo28", "vuelo29", "vuelo30", "vuelo31", "vuelo32", "vuelo33", "vuelo34", "vuelo35", "vuelo36", "vuelo37", "vuelo38", "vuelo39", "vuelo40", "vuelo41", "vuelo42"]
 
@@ -16,19 +16,19 @@ class vuelo:
     self.hora_llegada = hora_llegada
     self.asiento = asiento
     self.precio = precio
-   
+  
   
   def mostrardatos_vuelo(self):
-    
-    print("Codigo del vuelo: ", +self.codigo)
-    print("Aerolinea: ", +self.aerolinea)
-    print("Aeropuerto de inicio: ", +self.aeropuerto_inicio)
-    print("Aeropuerto de destino: ", +self.aeropuerto_destino)
-    print("Fecha del vuelo: ", +self.fecha)
-    print("Hora de salida: ", +self.hora_salida)
-    print("Hora de llegada: ", +self.hora_llegada)
-    print("Fecha del vuelo: ", +self.fecha)
-    print("precio: $", +self.precio)
+    print(" ")
+    print("Codigo del vuelo: ", str(self.codigo))
+    print("Aerolinea: ", self.areolinea)
+    print("Aeropuerto de inicio: ", self.aeropuerto_inicio)
+    print("Aeropuerto de destino: ", self.aeropuerto_destino)
+    print("Hora de salida: ", self.hora_salida)
+    print("Hora de llegada: ", self.hora_llegada)
+    print("Fecha del vuelo: julio ", str(self.fecha), " de 2023")
+    print("precio: $", self.precio)
+    print(" ")
 
 
     
@@ -38,36 +38,76 @@ class reserva(vuelo):
     super().__init__(codigo,aerolinea,aeropuerto_inicio,aeropuerto_destino,fecha,hora_salida,hora_llegada ,asiento,precio)  
 
   def buscar_vuelos(self):
+    print(" ")
     seleccion = "a"
     print("Por favor introduce el dia de salida el vuelo para la siguiente semana del mes de julio: (17-23)")
     self.fecha = int(input())
+    if self.fecha < 17 or self.fecha > 23:
+      print("La fecha introducida no es valida, por favor intente nuevamente")
+      sys.exit(105)
     print("Por favor introduce el aeropuerto de salida: (Bogota/Medellin/Bucaramanga)")
     self.aeropuerto_inicio = input()
     print("Por favor introduce el aeropuerto de destino: (Bogota/Medellin/Bucaramanga)")
     self.aeropuerto_destino = input()
+    print(" ")
+    if self.aeropuerto_inicio == self.aeropuerto_destino:
+      print("El aeropuerto de destino no puede ser el mismo que el de salida, por favor intente nuevamente")
+      sys.exit(525)
 
-    for n in vuelos:
-      if ((self.fecha == int(n.fecha)) and (self.aeropuerto_inicio == str(n.aeropuerto_inicio)) and (self.aeropuerto_destino == str(n.aeropuerto_destino))):
+    for n in range(0,42):
+      if ((self.fecha == int(vuelos[n].fecha)) and (self.aeropuerto_inicio == vuelos[n].aeropuerto_inicio) and (self.aeropuerto_destino == vuelos[n].aeropuerto_destino)):
 
         print("Se ha encotrado el vuelo con los siguientes datos: ")
         
         print(" ")
-        n.mostrardatos_vuelo()
+        vuelos[n].mostrardatos_vuelo()
 
         print(" ")
         print("Desea efectuar el pago y continuar con la reserva del vuelo? ", "por favor, introduzca: (si/no)")
         seleccion = str(input())
         if seleccion == "si":
-          self.codigo = n.codigo
-          self.aerolinea = str(n.areolinea)
-          self.hora_salida = str(n.hora_salida)
-          self.hora_llegada = str(n.hora_llegada)
-          self.precio = int(n.precio)
+          self.codigo = vuelos[n].codigo
+          self.aerolinea = str(vuelos[n].areolinea)
+          self.hora_salida = str(vuelos[n].hora_salida)
+          self.hora_llegada = str(vuelos[n].hora_llegada)
+          self.precio = int(vuelos[n].precio)
           print("Se esta procesando el pago.....")
           print("El pago ha sido exitoso ", "para continuar con la reserva por favor introduzca los datos del pasajero: ")
+        else:
+          print("La reserva no ha podido ser efectuada, por favor intente nuevamente después")
+          break 
+  def gestionar_asientos(self):
+    print(" ")
+    print("introduzca la fila del asiento: (a,b,c,d)")
+    self.asiento = str(input())
+    if self.asiento != "a" and self.asiento != "b" and self.asiento != "c" and self.asiento != "d":
+      print("La fila introducida no es valida, por favor intente nuevamente")
+      sys.exit(205)
+    print("introduzca el numero del asiento: (1,15)")
+    temp_asiento = str(input())
+    if temp_asiento != "1" and temp_asiento != "2" and temp_asiento != "3" and temp_asiento != "4" and temp_asiento != "5" and temp_asiento != "6" and temp_asiento != "7" and temp_asiento != "8" and temp_asiento != "9" and temp_asiento != "10" and temp_asiento != "11" and temp_asiento != "12" and temp_asiento != "13" and temp_asiento != "14" and temp_asiento != "15":
+      print("El numero del asiento introducido no es valido, por favor intente nuevamente")
+      sys.exit(305)
+    self.asiento = self.asiento + temp_asiento
+    print("El asiento ha sido asignado correctamente")
+    print("El asiento seleccionado es: " +self.asiento)
+    print(" ")
+
           
-        
-      
+
+
+  def mostrar_boleto(self, passenger):
+    print(" ")
+    print("El boleto ha sido reservado exitosamente, a continuación podrá ver el boleto del vuelo reservado previamente, recurde llevarlo en digital o impreso al momento del abordaje: ")
+    print(" ")
+    print("                                         ",str(self.aerolinea),"                                     ")
+
+    print("  Nombre del pasajero: ",str(passenger.nombre),"/",str(passenger.apellido), "          Vuelo: ", str(self.codigo))
+    print("  Origen: ",str(self.aeropuerto_inicio), "             Asiento: ",str(self.asiento))
+    print("  Destino: ",str(self.aeropuerto_destino),"        Fecha: ", " Julio ",str(self.fecha), " de 2023")
+    print("  Hora de salida:", self.hora_salida,"     Hora de llegada:", self.hora_llegada)
+    print("  ║▌║█║▌│║▌║▌█║▌║█║▌│║▌║▌█║▌║█║▌│║▌║▌█║▌║█║▌│║▌║▌█║▌║█║▌│║▌║▌█║▌║█║▌│║▌║▌█║▌║█║▌│║▌║▌█║▌║█║▌│║▌║▌█║▌║█║▌")
+    print("")
 
 
 
@@ -80,7 +120,7 @@ class pasajero:
     self.numero_documento = numero_documento
     self.telefono = telefono
     self.correo = correo
-  
+
   def ingresardatos_pasajero(self):
     print("Por favor ingrese su nombre: ")
     self.nombre = input()
@@ -95,6 +135,9 @@ class pasajero:
 
 
 vuelo_reserva = reserva("A1", "ALW", "A", "B", 17, "06:00", "08:00", "a", 85000)
+pasajero1 = pasajero("A", "B", 123, 123,"@mail" )
+
+
 
 vuelo1 = vuelo("BOME017","Avianca","Bogota","Medellin",17,"12:00","14:00","a",100000)
 vuelo2 = vuelo("BOME018","LATAM","Bogota","Medellin",18,"09:30","11:15","a",110000)
@@ -145,96 +188,17 @@ vuelo41 = vuelo("BOBU022","LATAM","Bogota","Bucaramanga",22,"15:00","16:30","a",
 vuelo42 = vuelo("BOBU023","Avianca","Bogota","Bucaramanga",23,"18:00","20:00","a",99000)
 
 
+vuelos = [ vuelo1, vuelo2, vuelo3, vuelo4, vuelo5, vuelo6, vuelo7, vuelo8, vuelo9, vuelo10, vuelo11, vuelo12, vuelo13, vuelo14, vuelo15, vuelo16, vuelo17, vuelo18, vuelo19, vuelo20, vuelo21, vuelo22, vuelo23, vuelo24, vuelo25, vuelo26, vuelo27, vuelo28, vuelo29, vuelo30, vuelo31, vuelo32, vuelo33, vuelo34, vuelo35, vuelo36, vuelo37, vuelo38, vuelo39, vuelo40, vuelo41, vuelo42]
 
 
-
-
-
-
-
-def seleccion_movimiento():
-  print("Que deseas hacer? ,introduce alguna de las siguientes opciones: atacar/defenderse/adquirir experiencia/afilar arma")
-  opcion = input()
-  if opcion == "atacar":
-    arma_seleccionada.atacar(rival)
-  if opcion == "defenderse":
-    arma_seleccionada.defenderse(jugador)
-  if opcion == "adquirir experiencia":
-    jugador.adquirir_experiencia()
-    jugador.subir_nivel()
-  if opcion == "afilar arma":
-    arma_seleccionada.afilar_arma()
-  
-def seleccion_rival():
-  opcion_rival = random.randint(1, 5)
-  if opcion_rival == 1:
-    arma_rival.atacar(jugador)
-  if opcion_rival == 2:
-    arma_rival.defenderse(rival)
-  if opcion_rival == 3:
-    rival.adquirir_experiencia()
-    rival.subir_nivel()
-  if opcion_rival == 4:
-    arma_rival.afilar_arma()
-
-
-
-print("Bienvenido a La Guerra de los elementos, a continuacion elige el nombre de tu personaje:")
-print(" ")
-personaje.asignar_nombre(jugador)
-print("Las siguientes armas estan disponibles en el reino de Hillowrik:")
-print(" ")
-print("Arma1:","Nombre del arma: "+arma1.nombre_arma)
-print("Elemento del arma: "+arma1.elemento_arma)
-print("El daño del arma es: "+str(arma1.daño_arma))
-print("la probabilidad de bloqueo del arma es: "+str(arma1.probabilidad_bloqueo))
-print("Los puntos de bloqueo del arma son: 7")
-print(" ")
-print("Arma2:","Nombre del arma: "+arma2.nombre_arma)
-print("Elemento del arma: "+arma2.elemento_arma)
-print("El daño del arma es: "+str(arma2.daño_arma))
-print("la probabilidad de bloqueo del arma es: "+str(arma2.probabilidad_bloqueo))
-print("Los puntos de bloqueo del arma son: 12")
-print(" ")
-print("Arma3:","Nombre del arma: "+arma3.nombre_arma)
-print("Elemento del arma: "+arma3.elemento_arma)
-print("El daño del arma es: "+str(arma3.daño_arma))
-print("la probabilidad de bloqueo del arma es: "+str(arma3.probabilidad_bloqueo))
-print("Los puntos de bloqueo del arma son: 14")
-print(" ")
-print("Por favor introduce alguna de las siguientes opciones para elegir un arma: arma1/arma2/arma3")
-seleccion = input()
-if seleccion == "arma1":
-  arma_seleccionada = Arma_toxica("Daga del veneno","toxicidad",1,20,"b")
-if seleccion == "arma2":
-  arma_seleccionada = Arma_hielo("Hacha de la ventisca","hielo",1,22,"b")
-if seleccion == "arma3":
-  arma_seleccionada = Arma_fuego("Espada del inframundo","fuego",1,28,"b")
-
-arma_rival = Arma_fuego("Espada del inframundo","fuego",1,28,"b")
-arma_rival.dueño_arma = rival.nombre
-
-arma_seleccionada.dueño_arma = jugador.nombre
-
-print(" Has seleccionado: "+str(arma_seleccionada.nombre_arma))
-
-print("El jugador: "+jugador.nombre, "se enfrentará al rey de los Orcos:" +rival.nombre)
-
-print(" " +rival.nombre, " ha adquirirdo el arma: " +arma_rival.nombre_arma)
-
-while jugador.puntos_vida >= 0 or rival.puntos_vida >= 0:
-  print(" ")
-  seleccion_movimiento()
-  print(" ")
-  if jugador.puntos_vida <= 0 or rival.puntos_vida <= 0:
-    break
-  seleccion_rival()
-  print(" ")
-  print(jugador.nombre, " puntos de vida: ", str(jugador.puntos_vida))
-  print(rival.nombre, " puntos de vida: ", str(rival.puntos_vida))
-    
-if jugador.puntos_vida <= 0:
-  print("El jugador: " +jugador.nombre, " ha perdido")
-
-if rival.puntos_vida <= 0:
-  print("El jugador: " +jugador.nombre, " ha vencido a: " +rival.nombre)
+print("Bienvenido a la agencia de viajes FindMyflightNow.com, desea buscar un vuelo?, por favor introduzca: (si/no)")
+opcion_vuelo = str(input())
+if opcion_vuelo == "si":
+  vuelo_reserva.buscar_vuelos()
+  pasajero1.ingresardatos_pasajero()
+  print("A continución podrá seleccionar su asiento:")
+  vuelo_reserva.gestionar_asientos()
+  vuelo_reserva.mostrar_boleto(pasajero1)
+  print("Gracias por comprar su vuelo con nosotros, esperamos que disfrute su viaje")
+else:
+  print("Gracias por visitar nuestra plataforma de busqueda de vuelos, esperamos poder servirle en otra ocasión")
