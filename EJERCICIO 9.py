@@ -1,244 +1,213 @@
-#se realizo el ejercicio 5 del taller final con el metodo adicional de afilar arma, por convenienci se decidio agrupar al jugador y rival como objetos de una misma clase llamada personaje
+#se realizo el ejercicio 9 del taller final con el metodo adicional de ver invitación en en pantalla
+import sys
 
-import random
+vuelos = [ "vuelo1", "vuelo2", "vuelo3", "vuelo4", "vuelo5", "vuelo6", "vuelo7", "vuelo8", "vuelo9", "vuelo10", "vuelo11", "vuelo12", "vuelo13", "vuelo14", "vuelo15", "vuelo16", "vuelo17", "vuelo18", "vuelo19", "vuelo20", "vuelo21", "vuelo22", "vuelo23", "vuelo24", "vuelo25", "vuelo26", "vuelo27", "vuelo28", "vuelo29", "vuelo30", "vuelo31", "vuelo32", "vuelo33", "vuelo34", "vuelo35", "vuelo36", "vuelo37", "vuelo38", "vuelo39", "vuelo40", "vuelo41", "vuelo42"]
 
-
-
-class personaje:
-  def __init__(self,nombre,puntos_vida,nivel,experiencia_del_nivel,defensa,puntos_bloqueo):
-    self.nombre = nombre
-    self.puntos_vida = puntos_vida
-    self.nivel = nivel
-    self.experiencia_del_nivel = experiencia_del_nivel
-    self.defensa = defensa
-    self.puntos_bloqueo = puntos_bloqueo
-    
-    
-   
-  def adquirir_experiencia(self):
-    print(self.nombre+ " Comienza a entrenar para obtener experiencia....")
-    self.experiencia_del_nivel = int(self.experiencia_del_nivel)
-    self.experiencia_del_nivel = int(self.experiencia_del_nivel + 50)
-    print("con el entrenamiento se han ganado 50 puntos de experiencia")
-  def subir_nivel(self):
-    self.nivel = int(self.nivel)
-    if self.experiencia_del_nivel == 100:
-      self.nivel = self.nivel + 1
-      self.puntos_vida = int(self.puntos_vida)
-      self.puntos_vida = int(self.puntos_vida + 20)
-      print( self.nombre+" ha subido de nivel, el nuevo nivel es: " +str(self.nivel), "y se ha aumentado en 20 los puntos de vida")
-      print( self.nombre+" ahora tiene " +str(self.puntos_vida))
-
-  def asignar_nombre(self):
-    print("Por favor ingrese el nombre del jugador: ")
-    self.nombre = input()
-
-  def recibir_daño(self,valor_ataque):
-    
-    if self.defensa == 1:
-      valor_ataque = valor_ataque - self.puntos_bloqueo
-      self.defensa = int(0)
-      self.puntos_bloqueo = int(0)
-    else:
-      valor_ataque = valor_ataque
-    self.puntos_vida = int(self.puntos_vida - valor_ataque)
-    
-
-class Arma:
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma):     
-    self.nombre_arma = nombre_arma
-    self.elemento_arma = elemento_arma
-    self.nivel_arma = nivel_arma
-    self.daño_arma = daño_arma
-    self.dueño_arma = dueño_arma
-
-  def atacar(self):
-    pass
-
-  def defenderse(self):
-    pass
-    
-  def afilar_arma(self):
-
-    print( self.dueño_arma+ " va a afilar su arma con la piedra de obsidiana del monte chrui...")
-    self.daño_arma = int(self.daño_arma)
-    self.daño_arma = int(self.daño_arma + 15)
-    print("Se ha afilado el arma exitosamente! , el daño del arma se ha incrementado en 15 puntos de daño", )
-
-class Arma_toxica(Arma):
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma): 
-    self.puntos_bloqueo = 7
-    self.probabilidad_bloqueo = "50%"
-    super().__init__(nombre_arma,elemento_arma,nivel_arma,daño_arma, dueño_arma)  
-
-  def atacar(self,objetivo):
-    valor_ataque = int(0)
-    self.daño_arma = int(self.daño_arma)
-    print(self.dueño_arma+ " ha ejecutado el ataque explosión venenosa")
-    print("Este ataque causa:"  +str(self.daño_arma), "puntos de daño")
-    valor_ataque = self.daño_arma
-    personaje.recibir_daño(objetivo,valor_ataque)
-    
-    
-  def defenderse(self,defendido):
-    print( self.dueño_arma+ " intentará efectuar la defensa anticipada en caso de ataque en el proximo turno del rival...")
-    
-    aleatorio = random.randint(1, 3)
-    if aleatorio == 1:
-      defendido.defensa = int(1)
-      defendido.puntos_bloqueo = int(7)
-      print("La defensa ha sido exitosa")
-    else:
-      defendido.defensa = int(0)
-      print("La defensa ha fracasado")
+participantes = []
 
 
-
-class Arma_hielo(Arma):
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma): 
-    self.puntos_bloqueo = 12
-    self.probabilidad_bloqueo = "33.3%"
-    super().__init__(nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma)  
-
-  def atacar(self,objetivo):
-    valor_ataque = int(0)
-    self.daño_arma = int(self.daño_arma)
-    print( self.dueño_arma+" ha ejecutado el ataque congelación profunda")
-    print("Este ataque causa:"  +str(self.daño_arma), "puntos de daño")
-    valor_ataque = self.daño_arma
-    personaje.recibir_daño(objetivo,valor_ataque)
-    
-    
-  def defenderse(self,defendido):
-    print( self.dueño_arma+ " intentará efectuar la defensa anticipada en caso de ataque en el proximo turno del rival...")
-    
-    aleatorio = random.randint(1, 4)
-    if aleatorio == 2:
-      defendido.defensa = int(1)
-      defendido.puntos_bloqueo = int(12)
-      print("La defensa ha sido exitosa")
-    else:
-      defendido.defensa = int(0)
-      print("La defensa ha fracasado")
-
-class Arma_fuego(Arma):
-  def __init__(self,nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma): 
-    self.puntos_bloqueo = 14
-    self.probabilidad_bloqueo = "25%"
-    super().__init__(nombre_arma,elemento_arma,nivel_arma,daño_arma,dueño_arma)  
-
-  def atacar(self,objetivo):
-    valor_ataque = int(0)
-    self.daño_arma = int(self.daño_arma)
-    print( self.dueño_arma+" ha ejecutado el ataque onda ignea")
-    print("Este ataque causa:"  +str(self.daño_arma), "puntos de daño")
-    valor_ataque = self.daño_arma
-    personaje.recibir_daño(objetivo,valor_ataque)
-    
-    
-  def defenderse(self,defendido):
-    print( self.dueño_arma+" intentará efectuar la defensa anticipada en caso de ataque en el proximo turno del rival...")
-    
-    aleatorio = random.randint(1, 5)
-    if aleatorio == 2:
-      defendido.defensa = int(1)
-      defendido.puntos_bloqueo = int(14)
-      print("La defensa ha sido exitosa")
-    else:
-      defendido.defensa = int(0)
-      print("La defensa ha fracasado")
-
-
-jugador = personaje("a",100,1,0,0,0)
-rival = personaje("Jiron el destructor",100,1,0,0,0)
-arma1 = Arma_toxica("Daga del veneno","toxicidad",1,20,"b")
-arma2 = Arma_hielo("Hacha de la ventisca","hielo",1,24,"b")
-arma3 = Arma_fuego("Espada del inframundo","fuego",1,28,"b")
-
-
-def seleccion_movimiento():
-  print("Que deseas hacer? ,introduce alguna de las siguientes opciones: atacar/defenderse/adquirir experiencia/afilar arma")
-  opcion = input()
-  if opcion == "atacar":
-    arma_seleccionada.atacar(rival)
-  if opcion == "defenderse":
-    arma_seleccionada.defenderse(jugador)
-  if opcion == "adquirir experiencia":
-    jugador.adquirir_experiencia()
-    jugador.subir_nivel()
-  if opcion == "afilar arma":
-    arma_seleccionada.afilar_arma()
+class evento:
+  def __init__(self,tipo_evento,cantidad_participantes,ciudad,precio,fecha,hora):
+    self.tipo_evento = tipo_evento
+    self.cantidad_participantes = cantidad_participantes
+    self.ciudad = ciudad
+    self.precio = precio
+    self.fecha = fecha
+    self.hora = hora
   
-def seleccion_rival():
-  opcion_rival = random.randint(1, 5)
-  if opcion_rival == 1:
-    arma_rival.atacar(jugador)
-  if opcion_rival == 2:
-    arma_rival.defenderse(rival)
-  if opcion_rival == 3:
-    rival.adquirir_experiencia()
-    rival.subir_nivel()
-  if opcion_rival == 4:
-    arma_rival.afilar_arma()
 
+  def crear_evento(self):
+    print(" ")
+    print("A continuación podrá crear un evento: ")
+    seleccion = "a"
+    print("Por favor introduce el tipo de evento: (Boda/Quinceaños/Graduación)")
+    self.tipo_evento = str(input())
+    print("Por favor introduce la cantidad de participantes del evento: (1-25)")
+    self.cantidad_participantes = int(input())
+    if self.cantidad_participantes < 1 or self.cantidad_participantes > 25:
+      print("La cantidad de participantes introducida no es valida, por favor intente nuevamente")
+      sys.exit(105)
+    print("Por favor introduce la ciudad en la que tendrá lugar el evento: (Bogota/Medellin/Bucaramanga)")
+    self.ciudad = str(input())
+    print("Por favor introduce la fecha del evento: (dia/mes/año)")
+    self.fecha = str(input())
+    print("Por favor introduce la hora del evento: (hora:minutos)")
+    self.hora = str(input())
 
+    if self.tipo_evento == "Boda":
+      self.precio = int(50000*self.cantidad_participantes)
+    if self.tipo_evento == "Quinceaños":
+      self.precio = int(43000*self.cantidad_participantes)
+    if self.tipo_evento == "Graduacion":
+      self.precio = int(37000*self.cantidad_participantes)
 
-print("Bienvenido a La Guerra de los elementos, a continuacion elige el nombre de tu personaje:")
-print(" ")
-personaje.asignar_nombre(jugador)
-print("Las siguientes armas estan disponibles en el reino de Hillowrik:")
-print(" ")
-print("Arma1:","Nombre del arma: "+arma1.nombre_arma)
-print("Elemento del arma: "+arma1.elemento_arma)
-print("El daño del arma es: "+str(arma1.daño_arma))
-print("la probabilidad de bloqueo del arma es: "+str(arma1.probabilidad_bloqueo))
-print("Los puntos de bloqueo del arma son: 7")
-print(" ")
-print("Arma2:","Nombre del arma: "+arma2.nombre_arma)
-print("Elemento del arma: "+arma2.elemento_arma)
-print("El daño del arma es: "+str(arma2.daño_arma))
-print("la probabilidad de bloqueo del arma es: "+str(arma2.probabilidad_bloqueo))
-print("Los puntos de bloqueo del arma son: 12")
-print(" ")
-print("Arma3:","Nombre del arma: "+arma3.nombre_arma)
-print("Elemento del arma: "+arma3.elemento_arma)
-print("El daño del arma es: "+str(arma3.daño_arma))
-print("la probabilidad de bloqueo del arma es: "+str(arma3.probabilidad_bloqueo))
-print("Los puntos de bloqueo del arma son: 14")
-print(" ")
-print("Por favor introduce alguna de las siguientes opciones para elegir un arma: arma1/arma2/arma3")
-seleccion = input()
-if seleccion == "arma1":
-  arma_seleccionada = Arma_toxica("Daga del veneno","toxicidad",1,20,"b")
-if seleccion == "arma2":
-  arma_seleccionada = Arma_hielo("Hacha de la ventisca","hielo",1,22,"b")
-if seleccion == "arma3":
-  arma_seleccionada = Arma_fuego("Espada del inframundo","fuego",1,28,"b")
+    print("El precio del evento es: ", self.precio)
+    print(" ")
+    print("Desea crear el evento? ", "por favor, introduzca: (si/no)")
+    seleccion = str(input())
+    if seleccion == "si":
+      print("El evento ha sido creado exitosamente")
+    if seleccion == "no":
+      print("El evento no ha sido creado, por favor intente nuevamente más tarde")
+      sys.exit(101)
+  def gestionar_logistica(self):
+    seleccion_logistica1 = "a"
+    seleccion_logistica2 = "a"
+    valoralquiler_salon = int(0)
+    valoralquiler_sillasymesas = int(0)
+    valoralquiler_sonido = int(0)
+    valor_comidaybebida = int(0)
+    valor_meserosypersonal = int(0)
 
-arma_rival = Arma_fuego("Espada del inframundo","fuego",1,28,"b")
-arma_rival.dueño_arma = rival.nombre
+    print("Estos son los datos del evento que se ha creado:")
+    print(" ")
+    print("Tipo de evento: ", self.tipo_evento)
+    print("Cantidad de participantes: ", str(self.cantidad_participantes))
+    print("Ciudad: ", self.ciudad)
+    print("Precio: ", str(self.precio))
+    print(" ")
+    print("El evento tiene los siguientes articipantes:")
+    for n in range(0,self.cantidad_participantes):
+      print("Participante: ", n+1)
+      print("Nombre: ", participantes[n].nombre)
+      print("Apellido: ", participantes[n].apellido)
+      print("Numero de documento: ", str(participantes[n].numero_documento))
+      print("Telefono: ", str(participantes[n].telefono))
+      print("Correo electronico: ", participantes[n].correo)
+      print(" ")
+    print("Si los datos son correctos y desea proceder con la logistica del evento por favor introduzca: (si/no)")
+    seleccion_logistica1 = str(input())
+    if seleccion_logistica1 == "si":
+      valoralquiler_salon = int(0.40 * self.precio)
+      valoralquiler_sillasymesas = int(0.10 * self.precio)
+      valoralquiler_sonido = int(0.10 * self.precio)
+      valor_comidaybebida = int(0.20 * self.precio)
+      valor_meserosypersonal = int(0.20 * self.precio)
+      print("El valor del alquiler del salon es: $", str(valoralquiler_salon), "y sera gestionado con ABCEventsrooms")
+      print("El valor del alquiler de sillas y mesas es: $", str(valoralquiler_sillasymesas), "y sera gestionado con FableyEventsfurniture")
+      print("El valor del alquiler del sonido es: $", str(valoralquiler_sonido), "y sera gestionado con XSFSuperSound")
+      print("El valor de la comida y bebida es: $", str(valor_comidaybebida), "y sera gestionado con FoodandDrinksIlowra")
+      print("El valor de los meseros y personal es: $", str(valor_meserosypersonal), "y sera gestionado con Silverstaff")
+      print(" ")
+      print("Desea enviar las respectivas ordenes de compra a los proveedores y gestionar la logistica del evento? ", "por favor, introduzca: (si/no)")
+      seleccion_logistica2 = str(input())
+      if seleccion_logistica2 == "si":
+        print("Las ordenes de compra han sido enviadas exitosamente,los proveedores se contactaran para ultimar detalles")
+        print("La logistica del evento ha sido gestionada exitosamente")
+      if seleccion_logistica2 == "no":
+        print("No se ha gestionado la logistica del evento, por favor intente nuevamente más tarde")
+        sys.exit(132)
+      
 
-arma_seleccionada.dueño_arma = jugador.nombre
+class participante:
+  def __init__(self,nombre,apellido,numero_documento,telefono,correo):
+    self.nombre = nombre
+    self.apellido = apellido
+    self.numero_documento = numero_documento
+    self.telefono = telefono
+    self.correo = correo
 
-print(" Has seleccionado: "+str(arma_seleccionada.nombre_arma))
+  def ingresardatos_participante(self):
+    print("Por favor ingrese el nombre del participante: ")
+    self.nombre = input()
+    print("Por favor ingrese el apellido: ")
+    self.apellido = input()
+    print("Por favor ingrese el numero de documento: ")
+    self.numero_documento = int(input())
+    print("Por favor ingrese el numero de telefono: ")
+    self.telefono = int(input())
+    print("Por favor ingrese el correo electronico: ")
+    self.correo = input()
+  
+class notificacion(participante,evento):
+  def __init__(self,nombre,apellido,numero_documento,telefono,correo): 
+    super().__init__(nombre,apellido,numero_documento,telefono,correo)
 
-print("El jugador: "+jugador.nombre, "se enfrentará al rey de los Orcos:" +rival.nombre)
+  def enviar_notificacion(self,participante,evento):
+    print(" ")
+    print("Se ha enviado una notificación al correo: ", str(participante.correo), "y al celular: ", str(participante.telefono))
+    print(" ")
+    print("La notificación dice el siguiente mensaje: ")
+    print("Estimado: ", str(participante.nombre), " ", str(participante.apellido))
+    print(" ")
+    print("Usted ha sido invitado al evento: ", str(evento.tipo_evento))
+    print(" ")
+    print("El evento se llevará a cabo en la ciudad de: ", str(evento.ciudad))
+    print(" ")
+    print("La fecha del evento es: ", "Julio ", str(evento.fecha), " de 2023")
+    print("La hora del evento es: ", str(evento.hora))
+    print(" ")
 
-print(" " +rival.nombre, " ha adquirirdo el arma: " +arma_rival.nombre_arma)
+  def mostrar_invitaciondigital(self,evento):
+    print("La invitación digital generada para el evento es la siguiente: ")
+    print(" ")
+    print(" ")
+    print(" ")
+    print("✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧")
+    print("        <................................................................................>")
+    print("Es un honor para mi anunciar e invitar a todos mis amigos y familiares a mi " )
+    print(" ")
+    print("Estoy seguro/a que será un dia inolvidable y espero cuente con tu presencia: ", str(evento.ciudad))
+    print("Ciudad: ", str(evento.ciudad))
+    print("Fecha: ",  str(evento.fecha))
+    print("Hora: ", str(evento.hora))
+    print(" ")
+    print("                             ♡ ♥ ❤♡ ♥ ❤♡ ♥ ❤                          ")
+    print("                             ♕ ♛♕ ♛♕ ♛♕ ♛♕                        ")
+    print("✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧✦ ✧")
 
-while jugador.puntos_vida >= 0 or rival.puntos_vida >= 0:
+evento1 = evento("A", 123, "A", 123, "01/01/2001", "01:01")
+
+participante1 = participante("A", "B", 123, 123,"@mail" )
+participante2 = participante("A", "B", 123, 123,"@mail" )
+participante3 = participante("A", "B", 123, 123,"@mail" )
+participante4 = participante("A", "B", 123, 123,"@mail" )
+participante5 = participante("A", "B", 123, 123,"@mail" )
+participante6 = participante("A", "B", 123, 123,"@mail" )
+participante7 = participante("A", "B", 123, 123,"@mail" )
+participante8 = participante("A", "B", 123, 123,"@mail" )
+participante9 = participante("A", "B", 123, 123,"@mail" )
+participante10 = participante("A", "B", 123, 123,"@mail" )
+participante11 = participante("A", "B", 123, 123,"@mail" )
+participante12 = participante("A", "B", 123, 123,"@mail" )
+participante13 = participante("A", "B", 123, 123,"@mail" )
+participante14 = participante("A", "B", 123, 123,"@mail" )
+participante15 = participante("A", "B", 123, 123,"@mail" )
+participante16 = participante("A", "B", 123, 123,"@mail" )
+participante17 = participante("A", "B", 123, 123,"@mail" )
+participante18 = participante("A", "B", 123, 123,"@mail" )
+participante19 = participante("A", "B", 123, 123,"@mail" )
+participante20 = participante("A", "B", 123, 123,"@mail" )
+participante21 = participante("A", "B", 123, 123,"@mail" )
+participante22 = participante("A", "B", 123, 123,"@mail" )
+participante23 = participante("A", "B", 123, 123,"@mail" )
+participante24 = participante("A", "B", 123, 123,"@mail" )
+participante25 = participante("A", "B", 123, 123,"@mail" )
+
+participantes = [participante1, participante2, participante3, participante4, participante5, participante6, participante7, participante8, participante9, participante10, participante11, participante12, participante13, participante14, participante15, participante16, participante17, participante18, participante19, participante20, participante21, participante22, participante23, participante24, participante25]
+
+print("Bienvenido al software de eventosPLus34 , por favor introduzca: (si/no)")
+opcion_evento = str(input())
+if opcion_evento == "si":
+  evento1.crear_evento()
+  print("A continuación podrá registrar los participantes del evento: ")
+  for n in range(0,evento1.cantidad_participantes):
+    print("Participante: ", n+1)
+    participantes[n].ingresardatos_participante()
+    print(" ")
   print(" ")
-  seleccion_movimiento()
+  print("A continuación podra gestionar la logistica del evento: ")
+  evento1.gestionar_logistica()
   print(" ")
-  if jugador.puntos_vida <= 0 or rival.puntos_vida <= 0:
-    break
-  seleccion_rival()
+  print("A continuación podra enviar las notificaciones a los participantes del evento: ")
+  for n in range(0,evento1.cantidad_participantes): 
+    notificacion1 = notificacion(participantes[n].nombre,participantes[n].apellido,participantes[n].numero_documento,participantes[n].telefono,participantes[n].correo)
+    notificacion1.enviar_notificacion(participantes[n],evento1)
+  print("Se han enviado las notificaciones del evento correctamente")
   print(" ")
-  print(jugador.nombre, " puntos de vida: ", str(jugador.puntos_vida))
-  print(rival.nombre, " puntos de vida: ", str(rival.puntos_vida))
-    
-if jugador.puntos_vida <= 0:
-  print("El jugador: " +jugador.nombre, " ha perdido")
-
-if rival.puntos_vida <= 0:
-  print("El jugador: " +jugador.nombre, " ha vencido a: " +rival.nombre)
+  print("A continuación podra ver la invitación digital del evento: ")
+  notificacion1.mostrar_invitaciondigital(evento1)
+  print(" ")
+  print("Gracias por gestionar su evento con nosotros, esperamos que sea un dia inolvidable")
+else:
+  print("Gracias por visitar nuestra plataforma de gestión de eventos, esperamos poder ayudarle con su evento en el futuro")
